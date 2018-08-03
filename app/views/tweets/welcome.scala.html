@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Search Tweets</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
+        <script src="@routes.Assets.versioned("javascripts/jquery-3.3.1.js")"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm() {
+                //alert('Validating form...');
+                var text = document.getElementById('title').value;
+                text = escape(text);
+                location.href = 'http://localhost:9000/tweets/create/'+ text;
+                document.getElementById('title').action=location.href;
+                return false;
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="jumbotron text-center">
+            <h1>Ask For <span class="text-primary">Tweets</span></h1>
+            <br>
+            <h2>Enter the topic!</h2>
+        </div>
+        <div align="center">
+
+
+            <form action="/tweets/create" method="post">
+
+                <input type="text" name="title"/>
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </form>
+        </div>
+    </body>
+</html>

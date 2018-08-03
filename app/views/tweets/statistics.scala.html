@@ -1,0 +1,32 @@
+@import java.util.concurrent.CompletableFuture
+@import java.util
+@(keyStat: String, sortedWordCount:CompletableFuture[util.HashMap[String,Integer]])
+
+<html>
+    <head>
+        <title>Tweet Statistics</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
+        <script src="@routes.Assets.versioned("javascripts/jquery-3.3.1.js")"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div class="jumbotron text-center">
+            <h1><p>Statistics for search Query "<b><span class="text-primary">@keyStat</span></b>"</p></h1>
+
+        </div>
+
+        <div align="center">
+
+
+
+            @for((key,value) <- sortedWordCount.get()) {
+                <p><b>@key</b> - <b>@value</b></p>
+            }
+
+            <br>
+        </div>
+    </body>

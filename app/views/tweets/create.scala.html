@@ -1,0 +1,52 @@
+@import java.util.concurrent.CompletableFuture
+@import java.util
+@(displayMap: util.HashMap[String, CompletableFuture[util.List[Details]]], cfStatMap: CompletableFuture[util.HashMap[String, Integer]], sentiment: CompletableFuture[String])
+
+    <html>
+        <head>
+            <title>Search Tweets</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
+            <script src="@routes.Assets.versioned("javascripts/jquery-3.3.1.js")"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        </head>
+
+        <body>
+            <div class="jumbotron text-center">
+                <h1>Ask For <span class="text-primary">Tweets</span></h1>
+
+            </div>
+            @*<h1>Ask For Tweet</h1>
+            <p>Enter the topic!</p>*@
+            <div align="center">
+
+                <form action="/tweets/create" method="post">
+
+                    <input type="text" name="title"/>
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+
+            </div>
+
+            @for((key, value) <- displayMap) {
+                <p><b>Search result for @key&nbsp;@sentiment.get()</b>&nbsp; @value.get().size()/10</p>
+                <p><a href="http://localhost:9000/tweets/stats/@key"> Statistics </a></p>
+                @for(tweet <- value.get()) {
+                    <p>Username:<a href="http://localhost:9000/tweets/userprofile/@tweet.screenName"> @tweet.userName</a></p>
+                    <p>Location:<a href="http://localhost:9000/tweets/location/@tweet.location"> @tweet.location</a></p>
+                     <p>FollowersCount: @tweet.followersCount</p>
+                    <p>ScreenName: @tweet.screenName</p>
+                    <p>Tweet: @tweet.text</p>
+                    <p>
+                        HashTags
+                    @for(hashtags <- tweet.hashtagEntities){
+                        <a href="http://localhost:9000/tweets/hashtag/@hashtags.getText()">@hashtags.getText()</a>
+                    }
+                    </p>
+                    <br>
+                    }
+            }
+        </body>
+    </html>
